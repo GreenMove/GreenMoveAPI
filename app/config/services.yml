@@ -3,3 +3,8 @@ services:
         parent:    "api.resource"
         arguments: [ "AppBundle\\Entity\\Person" ]
         tags:      [ { name: "api.resource" } ]
+
+    resource.stats:
+        parent:    "api.resource"
+        arguments: [ "AppBundle\\Entity\\Stats" ]
+        tags:      [ { name: "api.resource" } ]

@@ -3,18 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Dunglas\ApiBundle\Annotation\Iri;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A person (alive, dead, undead, or fictional).
- * 
- * @see http://schema.org/Person Documentation on Schema.org
+ * A person.
  * 
  * @ORM\Entity
- * @Iri("http://schema.org/Person")
  */
-class Person extends Thing
+class Person
 {
     /**
      * @var int
@@ -25,29 +21,57 @@ class Person extends Thing
      */
     private $id;
     /**
+     * @var string The name of the person.
+     *
+     * @ORM\Column(nullable=false)
+     * @Assert\Type(type="string")
+     */
+    private $name;
+    /**
      * @var \DateTime Date of birth.
      * 
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
-     * @Iri("https://schema.org/birthDate")
      */
     private $birthDate;
     /**
      * @var string Email address.
      * 
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(nullable=false)
      * @Assert\Email
-     * @Iri("https://schema.org/email")
      */
     private $email;
     /**
      * @var string Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.
      * 
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(nullable=false)
      * @Assert\Type(type="string")
-     * @Iri("https://schema.org/familyName")
      */
     private $familyName;
+    /**
+     * @var string User password.
+     *
+     * @ORM\Column(type="string", length=64, nullable=false)
+     * @Assert\Type(type="string")
+     */
+    private $password;
+    /**
+     * @var \DateTime Date of registration.
+     *
+     * @ORM\Column(type="date", nullable=true)
+     * @Assert\Date
+     */
+    private $registrationDate;
+    /**
+     * @var Stats The statistical of the person.
+     *
+     * @ORM\OneToOne(targetEntity="Stats", cascade={"persist"})
+     */
+    private $stats;
+
+    public function __construct() {
+        $this->stats = new Stats();
+    }
 
     /**
      * Sets id.
@@ -143,5 +167,97 @@ class Person extends Thing
     public function getFamilyName()
     {
         return $this->familyName;
+    }
+
+    /**
+     * Sets registrationDate.
+     *
+     * @param \DateTime $registrationDate
+     *
+     * @return $this
+     */
+    public function setRegistrationDate(\DateTime $registrationDate = null)
+    {
+        $this->registrationDate = $registrationDate;
+
+        return $this;
+    }
+
+    /**
+     * Gets registrationDate.
+     *
+     * @return \DateTime
+     */
+    public function getRegistrationDate()
+    {
+        return $this->registrationDate;
+    }
+
+    /**
+     * Sets password.
+     *
+     * @param string $password
+     *
+     * @return $this
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Gets password.
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return Stats
+     */
+    public function getStats()
+    {
+        return $this->stats;
+    }
+
+    /**
+     * @param Stats $stats
+     *
+     * @return $this
+     */
+    public function setStats($stats)
+    {
+        $this->stats = $stats;
+
+        return $this;
+    }
+
+    /**
+     * Sets name.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
