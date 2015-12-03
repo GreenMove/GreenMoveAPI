@@ -29,7 +29,7 @@ class Person extends BaseUser
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
      */
-    private $birthDate;
+    protected $birthDate;
 
     /**
      * @var \DateTime Date of registration.
@@ -37,13 +37,13 @@ class Person extends BaseUser
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
      */
-    private $registrationDate;
+    protected $registrationDate;
     /**
      * @var Stats The statistical of the person.
      *
      * @ORM\OneToOne(targetEntity="Stats", cascade={"persist"})
      */
-    private $stats;
+    protected $stats;
 
     public function __construct() {
         parent::__construct();

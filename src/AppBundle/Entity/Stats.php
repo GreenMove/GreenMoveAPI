@@ -19,63 +19,63 @@ class Stats
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
     /**
      * @var int The points earned by a person.
      *
      * @ORM\Column(type="integer", nullable=false)
      * @Assert\Type(type="integer")
      */
-    private $points = 0;
+    protected $points = 0;
     /**
      * @var float The total km traveled by the person.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      * @Assert\Type(type="float")
      */
-    private $totalKmTraveled = 0;
+    protected $totalKmTraveled = 0;
     /**
      * @var float The km traveled by the person on foot.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      * @Assert\Type(type="float")
      */
-    private $kmWalk = 0;
+    protected $kmWalk = 0;
     /**
      * @var float The km traveled by the person on bicycle.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      * @Assert\Type(type="float")
      */
-    private $kmBicycle = 0;
+    protected $kmBicycle = 0;
     /**
      * @var float The km traveled by the person with other transport.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      * @Assert\Type(type="float")
      */
-    private $kmOther = 0;
+    protected $kmOther = 0;
     /**
      * @var int The number of session do by the person.
      *
      * @ORM\Column(type="integer", nullable=false)
      * @Assert\Type(type="integer")
      */
-    private $nbSession = 0;
+    protected $nbSession = 0;
     /**
      * @var float The longest session in km do by the person.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      * @Assert\Type(type="float")
      */
-    private $longestSession = 0;
+    protected $longestSession = 0;
     /**
      * @var float The total of CO2 economised by the person.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      * @Assert\Type(type="float")
      */
-    private $carbonEco = 0;
+    protected $carbonEco = 0;
 
     /**
      * Sets id.
