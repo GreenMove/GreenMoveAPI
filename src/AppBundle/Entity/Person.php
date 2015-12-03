@@ -3,14 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person.
  * 
  * @ORM\Entity
+ * @ORM\Table(name="fos_user")
  */
-class Person
+class Person extends BaseUser
 {
     /**
      * @var int
@@ -19,14 +21,8 @@ class Person
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-    /**
-     * @var string The name of the person.
-     *
-     * @ORM\Column(nullable=false)
-     * @Assert\Type(type="string")
-     */
-    private $name;
+    protected $id;
+
     /**
      * @var \DateTime Date of birth.
      * 
@@ -34,27 +30,7 @@ class Person
      * @Assert\Date
      */
     private $birthDate;
-    /**
-     * @var string Email address.
-     * 
-     * @ORM\Column(nullable=false)
-     * @Assert\Email
-     */
-    private $email;
-    /**
-     * @var string Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.
-     * 
-     * @ORM\Column(nullable=false)
-     * @Assert\Type(type="string")
-     */
-    private $familyName;
-    /**
-     * @var string User password.
-     *
-     * @ORM\Column(type="string", length=64, nullable=false)
-     * @Assert\Type(type="string")
-     */
-    private $password;
+
     /**
      * @var \DateTime Date of registration.
      *
@@ -70,6 +46,7 @@ class Person
     private $stats;
 
     public function __construct() {
+        parent::__construct();
         $this->stats = new Stats();
     }
 
@@ -122,54 +99,6 @@ class Person
     }
 
     /**
-     * Sets email.
-     * 
-     * @param string $email
-     * 
-     * @return $this
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Gets email.
-     * 
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Sets familyName.
-     * 
-     * @param string $familyName
-     * 
-     * @return $this
-     */
-    public function setFamilyName($familyName)
-    {
-        $this->familyName = $familyName;
-
-        return $this;
-    }
-
-    /**
-     * Gets familyName.
-     * 
-     * @return string
-     */
-    public function getFamilyName()
-    {
-        return $this->familyName;
-    }
-
-    /**
      * Sets registrationDate.
      *
      * @param \DateTime $registrationDate
@@ -194,30 +123,6 @@ class Person
     }
 
     /**
-     * Sets password.
-     *
-     * @param string $password
-     *
-     * @return $this
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Gets password.
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
      * @return Stats
      */
     public function getStats()
@@ -235,29 +140,5 @@ class Person
         $this->stats = $stats;
 
         return $this;
-    }
-
-    /**
-     * Sets name.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Gets name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 }
