@@ -78,6 +78,13 @@ class Stats
     protected $carbonEco = 0;
 
     /**
+     * @var Person The owner of the stats.
+     *
+     * @ORM\OneToOne(targetEntity="Person", mappedBy="stats")
+     */
+    protected $owner;
+
+    /**
      * Sets id.
      *
      * @param int $id
@@ -259,5 +266,21 @@ class Stats
         $this->totalKmTraveled = $totalKmTraveled;
 
         return $this;
+    }
+
+    /**
+     * @return Person
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param Person $owner
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
     }
 }

@@ -41,7 +41,8 @@ class Person extends BaseUser
     /**
      * @var Stats The statistical of the person.
      *
-     * @ORM\OneToOne(targetEntity="Stats", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Stats", inversedBy="owner", cascade={"persist"}, fetch="EAGER")
+     * @ORM\JoinColumn(name="stats_id", referencedColumnName="id")
      */
     protected $stats;
 
