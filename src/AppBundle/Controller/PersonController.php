@@ -41,9 +41,13 @@ class PersonController extends Controller
         $password = $request->request->get('_password');
 
         $user = $userManager->createUser();
+
+        $pwdFactory = $this->get('security.encoder_factory');
+        $encoder = $pwdFactory->getEncoder($user);
+
         $user->setUsername($username);
         $user->setEmail($email);
-        $user->setPassword($password);
+        $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
         $user->setEnabled(true);
 
         $event = new GetResponseUserEvent($user, $request);
@@ -57,7 +61,6 @@ class PersonController extends Controller
         $form->setData($user);
 
         $form->handleRequest($request);
-
 
         $event = new FormEvent($form, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
