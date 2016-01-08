@@ -46,6 +46,9 @@ class Person extends BaseUser
      */
     protected $stats;
 
+    // Override to tix Nelmio API doc
+    protected $groups;
+
     public function __construct() {
         parent::__construct();
         $this->stats = new Stats();
