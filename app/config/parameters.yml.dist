@@ -16,7 +16,7 @@ parameters:
 
     locale:            fr
 
-    cors_allow_origin: http://localhost
+    cors_allow_origin: "*"
 
     api_name:          GreenMoveAPI
     api_description:   GreenMoveAPI
