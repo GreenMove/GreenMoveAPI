@@ -46,6 +46,9 @@ class Person extends BaseUser
      */
     protected $stats;
 
+    // Overrides to fix Nelmio Api Doc
+    protected $groups;
+
     public function __construct() {
         parent::__construct();
         $this->stats = new Stats();

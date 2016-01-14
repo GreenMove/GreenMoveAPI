@@ -1,6 +1,6 @@
 # This file is a "template" of what your parameters.yml file should look like
 parameters:
-    database_driver:   pdo_pgsql
+    database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     null
     database_name:     GreenMoveAPI
@@ -16,7 +16,7 @@ parameters:
 
     locale:            fr
 
-    cors_allow_origin: http://localhost
+    cors_allow_origin: '*'
 
     api_name:          GreenMoveAPI
     api_description:   GreenMoveAPI
