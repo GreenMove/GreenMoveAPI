@@ -40,6 +40,14 @@ class PersonController extends Controller
         $email = $request->request->get('_email');
         $password = $request->request->get('_password');
 
+        if (!($userManager->findUserByEmail($email) === null)){
+            throw new HttpException(400, "Email exist !");
+        }
+
+        if (!($userManager->findUserByUsername($username) === null)){
+            throw new HttpException(400, "User exist !");
+        }
+
         $user = $userManager->createUser();
 
         $pwdFactory = $this->get('security.encoder_factory');
