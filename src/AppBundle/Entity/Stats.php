@@ -24,35 +24,30 @@ class Stats
      * @var int The points earned by a person.
      *
      * @ORM\Column(type="integer", nullable=false)
-     * @Assert\Type(type="integer")
      */
     protected $points = 0;
     /**
      * @var float The total km traveled by the person.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
-     * @Assert\Type(type="float")
      */
     protected $totalKmTraveled = 0;
     /**
      * @var float The km traveled by the person on foot.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
-     * @Assert\Type(type="float")
      */
     protected $kmWalk = 0;
     /**
      * @var float The km traveled by the person on bicycle.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
-     * @Assert\Type(type="float")
      */
     protected $kmBicycle = 0;
     /**
      * @var float The km traveled by the person with other transport.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
-     * @Assert\Type(type="float")
      */
     protected $kmOther = 0;
     /**
@@ -66,14 +61,12 @@ class Stats
      * @var float The longest session in km do by the person.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
-     * @Assert\Type(type="float")
      */
     protected $longestSession = 0;
     /**
      * @var float The total of CO2 economised by the person.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
-     * @Assert\Type(type="float")
      */
     protected $carbonEco = 0;
 
