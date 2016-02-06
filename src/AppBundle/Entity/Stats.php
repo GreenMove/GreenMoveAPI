@@ -33,11 +33,23 @@ class Stats
      */
     protected $totalKmTraveled = 0;
     /**
+     * @var int The time of all sessions in second.
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $totalSecondTraveled = 0;
+    /**
      * @var float The km traveled by the person on foot.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      */
     protected $kmWalk = 0;
+    /**
+     * @var int The time of all walk sessions in second.
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $secondWalk = 0;
     /**
      * @var float The km traveled by the person on bicycle.
      *
@@ -45,11 +57,23 @@ class Stats
      */
     protected $kmBicycle = 0;
     /**
+     * @var int The time of all bicycle sessions in second.
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $secondBicycle = 0;
+    /**
      * @var float The km traveled by the person with other transport.
      *
      * @ORM\Column(type="decimal", precision=15, scale=2, nullable=false)
      */
     protected $kmOther = 0;
+    /**
+     * @var int The time of all other sessions in second.
+     *
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $secondOther = 0;
     /**
      * @var int The number of session do by the person.
      *
@@ -274,5 +298,69 @@ class Stats
     public function setOwner($owner)
     {
         $this->owner = $owner;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalSecondTraveled()
+    {
+        return $this->totalSecondTraveled;
+    }
+
+    /**
+     * @param int $totalSecondTraveled
+     */
+    public function setTotalSecondTraveled($totalSecondTraveled)
+    {
+        $this->totalSecondTraveled = $totalSecondTraveled;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSecondWalk()
+    {
+        return $this->secondWalk;
+    }
+
+    /**
+     * @param int $secondWalk
+     */
+    public function setSecondWalk($secondWalk)
+    {
+        $this->secondWalk = $secondWalk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSecondBicycle()
+    {
+        return $this->secondBicycle;
+    }
+
+    /**
+     * @param int $secondBicycle
+     */
+    public function setSecondBicycle($secondBicycle)
+    {
+        $this->secondBicycle = $secondBicycle;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSecondOther()
+    {
+        return $this->secondOther;
+    }
+
+    /**
+     * @param int $secondOther
+     */
+    public function setSecondOther($secondOther)
+    {
+        $this->secondOther = $secondOther;
     }
 }
