@@ -54,7 +54,6 @@ class Stats
      * @var int The number of session do by the person.
      *
      * @ORM\Column(type="integer", nullable=false)
-     * @Assert\Type(type="integer")
      */
     protected $nbSession = 0;
     /**
