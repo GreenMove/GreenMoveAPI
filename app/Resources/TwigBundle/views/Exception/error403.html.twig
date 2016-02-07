@@ -1,0 +1,11 @@
+{# app/Resources/TwigBundle/views/Exception/error403.html.twig #}
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1>403</h1>
+    <p>
+        Erreur : Vous n'êtes pas administrateur !
+    </p>
+    <p>
+        <a href="{{ url('sonata_user_admin_security_logout') }}">Déconnexion</a>
+</p>
+{% endblock %}

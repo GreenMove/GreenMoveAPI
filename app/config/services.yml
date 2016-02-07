@@ -14,3 +14,9 @@ services:
         parent:    "api.resource"
         arguments: [ "AppBundle\\Entity\\Stats" ]
         tags:      [ { name: "api.resource" } ]
+
+    admin.stats:
+        class: AppBundle\Admin\StatsAdmin
+        arguments: [~, AppBundle\Entity\Stats, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Stats }

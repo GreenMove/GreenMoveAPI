@@ -363,4 +363,9 @@ class Stats
     {
         $this->secondOther = $secondOther;
     }
+
+    public function __toString()
+    {
+        return "" . $this->id;
+    }
 }

@@ -2,86 +2,72 @@
 
 namespace AppBundle\Controller;
 
-use FOS\UserBundle\Event\FilterUserResponseEvent;
-use FOS\UserBundle\Event\FormEvent;
-use FOS\UserBundle\Event\GetResponseUserEvent;
-use FOS\UserBundle\FOSUserEvents;
+use AppBundle\Entity\Person;
+use Dunglas\ApiBundle\JsonLd\Response;
+use Sonata\CoreBundle\Tests\Entity\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class PersonController extends Controller
 {
     /**
-     * @Route("/post_user", name="post_user")
+     * @Route("/post_user", name="Add an user")
      * @Method({"POST"})
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Create a new user",
+     *  parameters={
+     *      {"name"="_username", "dataType"="string", "required"=true, "description"="User name"},
+     *      {"name"="_password", "dataType"="string", "required"=true, "description"="User password"},
+     *      {"name"="_email", "dataType"="string", "required"=true, "description"="User email"}
+     *  }
+     * )
      *
      * @param Request $request
      * @return null|RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function postUserAction(Request $request) {
-
-        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
-        $formFactory = $this->get('fos_user.registration.form.factory');
-        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
         $userManager = $this->get('fos_user.user_manager');
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-
         if (!($request->request->has('_username') && $request->request->has('_email') && $request->request->has('_password'))) {
             throw new HttpException(400, "Parameters required !");
-
         }
-
-        $username = $request->request->get('_username');
-        $email = $request->request->get('_email');
-        $password = $request->request->get('_password');
-
+        $username = $request->get('_username');
+        $password = $request->get('_password');
+        $email= $request->get('_email');
+        // Verify if the users email or the user name are already used
         if (!($userManager->findUserByEmail($email) === null)){
-            throw new HttpException(400, "Email exist !");
+            throw new HttpException(480, "Email exist !");
         }
-
         if (!($userManager->findUserByUsername($username) === null)){
-            throw new HttpException(400, "User exist !");
+            throw new HttpException(481, "User exist !");
         }
-
+        // Create a new user and set its parameters
+        /** @var Person $user */
         $user = $userManager->createUser();
-
-        $pwdFactory = $this->get('security.encoder_factory');
-        $encoder = $pwdFactory->getEncoder($user);
-
+        $factory = $this->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($user);
+        $password = $encoder->encodePassword($password, $user->getSalt());
+        $user->setPassword($password);
         $user->setUsername($username);
+        $user->setUsernameCanonical($username);
         $user->setEmail($email);
-        $user->setPassword($encoder->encodePassword($password, $user->getSalt()));
+        $user->setEmailCanonical($email);
         $user->setEnabled(true);
-
-        $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
-
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }
-
-        $form = $formFactory->createForm();
-        $form->setData($user);
-
-        $form->handleRequest($request);
-
-        $event = new FormEvent($form, $request);
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
-
-        $userManager->updateUser($user);
-
-        if (null === $response = $event->getResponse()) {
-            $url = $this->generateUrl('fos_user_registration_confirmed');
-            $response = new RedirectResponse($url);
-        }
-
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
-
-        return $response;
+        $user->setLocked(false);
+        $user->setExpired(false);
+        $user->setCredentialsExpired(false);
+        // Persist the new user
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $this->get('doctrine')->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+        return new JsonResponse('Register OK');
     }
 }
