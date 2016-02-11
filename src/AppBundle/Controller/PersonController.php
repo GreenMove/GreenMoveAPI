@@ -68,6 +68,22 @@ class PersonController extends Controller
         $em = $this->get('doctrine')->getEntityManager();
         $em->persist($user);
         $em->flush();
+
+        $message = \Swift_Message::newInstance();
+
+        $message
+            ->setSubject('Inscription GreenMove')
+            ->setFrom('contact@greenmove-fr.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    'Emails/registration.html.twig',
+                    array('name' => $username)
+                ),
+                'text/html'
+            );
+        $result = $this->get('mailer')->send($message);
+
         return new JsonResponse('Register OK');
     }
 }
